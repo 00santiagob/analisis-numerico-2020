@@ -1,12 +1,10 @@
-analisis-numerico-2020
-==
+# analisis-numerico-2020
 
-## Analisis Numerico: 2020
+## Ejercicios de Laboratorio
 
-### Ejercicios de Laboratorio
+### Autor
 
-### Autor:
-  * __@00santiagob__
+* __@00santiagob__
 
 ## Resumen
 
