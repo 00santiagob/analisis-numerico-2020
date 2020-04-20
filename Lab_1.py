@@ -5,6 +5,7 @@
 import numpy as np
 import math
 
+
 def ej1():
     x = int(input("Ingresa el valor de x: "))
     y = int(input("Ingresa el valor de y: "))
@@ -20,6 +21,7 @@ def ej1():
     res4 = x / (y * z)
     print("Diferencia entre: x/y*z=", res3, "y x/(y*z)=", res4)
 
+
 def ej2():
     # epsilon-maquina: 2**(-52) = 2.2204e-16 aprox
     epsilon_maquina = 2**(-52)
@@ -28,31 +30,33 @@ def ej2():
     a = 1 + 2**(-53)
     b = a - 1
     print("a=", a, "b=", b)
-    
+
     a = 1 + 2**(-52)
     b = a - 1
     print("a=", a, "b=", b)
+
 
 def ej3():
     """
     Overflow: cuando se trata de representar un numero grande que tiende a infinito y la maquina no lo soporta.
 
     Underflow: cuando se trata de representar un numero muy chico que tiende a 0 y la maquina no lo soporta.
-    
+
     Para este ejercicio se usa isinf de la libreria numpy.
     """
     i = 0
     try:
-        #while not np.isinf(2**i):
+        # while not np.isinf(2**i):
         while not math.isinf(2**i):
             i = i + 1
     except OverflowError:
         print("Overflow con 2**("+str(i)+")=", 2**i+1)
-    
+
     i = 0
     while 1/(2**i) != 0:
         i = i + 1
     print("UnderFlow con 1/(2**"+str(i)+")")
+
 
 def ej4():
     # Incrementando x en 0.1
@@ -65,6 +69,7 @@ def ej4():
     while x != 10 and x < 15:
         x = x + 0.5
         print("x =", x)
+
 
 def ej5():
     """
@@ -81,24 +86,27 @@ def ej5():
     fact = math.factorial(n)
     print("Factorial de n =", fact)
 
+
 def ej6():
     x = int(input("Ingrese el valor x: "))
     y = int(input("Ingrese el valor y: "))
     if x == y:
         print("Ambos 'x' e 'y' son iguales")
     else:
-        print("El mas grande es: ", max(x,y))
+        print("El mas grande es: ", max(x, y))
+
 
 def ej7():
     x = int(input("Ingrese el valor x: "))
     n = int(input("Ingrese el valor n: "))
     for i in range(n+1):
         if i < 5:
-            print(str(x)+"^("+str(i)+") = ", int(pow(x,i)))
+            print(str(x)+"^("+str(i)+") = ", int(pow(x, i)))
         elif i == n:
-            print(str(x)+"^("+str(n)+") = ", int(pow(x,n)))
+            print(str(x)+"^("+str(n)+") = ", int(pow(x, n)))
         else:
             continue
+
 
 def mala(a, b, c):
     if a != 0:
@@ -110,6 +118,7 @@ def mala(a, b, c):
         x2 = math.nan
     return x1, x2
 
+
 def buena(a, b, c):
     delta = b**2 - 4*a*c
     if b <= 0:
@@ -118,6 +127,7 @@ def buena(a, b, c):
         x1 = (-b - delta**(.5)) / (2*a)
     x2 = c / (a*x1)
     return x1, x2
+
 
 def ej8():
     a = int(input("Ingrese el valor a: "))
@@ -128,13 +138,15 @@ def ej8():
     x1, x2 = buena(a, b, c)
     print("Evita cancelacion de digitos significativos:\nx1=", x1, "\nx2=", x2)
 
+
 def horn(coefs, x):
     # Algoritmo de Horn (Multiplicacion encajada)
     n = len(coefs)
     res = coefs[0]
-    for i in range(1,n):
+    for i in range(1, n):
         res = res * x + coefs[i]
     return res
+
 
 def ej9():
     print("Ingresar los coeficientes separados por espacios:")
@@ -143,6 +155,7 @@ def ej9():
     x = int(input("Ingresa el valor x: "))
     p = horn(coefs, x)
     print("Horn devuelve: ", p)
+
 
 if __name__ == "__main__":
     # ejx() ejecutara la funcion del ejercicio n° x

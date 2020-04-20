@@ -14,6 +14,8 @@ Ejercicios del Laboratorio de Analisis Numerico (2020) del FaMAF - UNC
 * Lab_2.py esta en proceso.
 * Lab_3.py esta en proceso.
 
+Ademas se uso *autopep8* para el estilo de codigo.
+
 ### Requisitos
 
 Tener instalado *__Git__* y  *__Python__* (en lo posible Python3 cualquier version).
@@ -24,7 +26,7 @@ Primero descargar el repositorio __analisis-numerico-2020__:
 
 1) Abrir una terminal:
 
-        $ git clone https://github.com/00santiagob/analisis-numerico-2020.git
+        git clone https://github.com/00santiagob/analisis-numerico-2020.git
 
 2) Para correr algun ejercicio entrar en algun archivo Lab_x.py, donde x es el numero correspondiente a cada practico.
 
