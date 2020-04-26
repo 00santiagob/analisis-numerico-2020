@@ -130,6 +130,51 @@ def ej4():
     return hx, hf
 
 
+def ripf(fun, x0, err, mit):
+	# Algoritmo de Iteracion de punto fijo
+    # fun es una funcion que dado un x retorna f(x)
+    # x0 es un punto inicial en los reales
+    # err es la tolerancia deseada del error
+    # mit es el numero maximo de iteraciones permitidas
+    # Iniciamos la lista de puntos
+    hx = []
+    k = 0
+    hx.append(x0)
+    while k < mit:
+        k = k + 1
+        xn = fun(x0)
+        hx.append(xn)
+        if abs(xn - x0) < err:
+        	print("El paso es pequeño")
+        	break
+        x0 = xn
+    return hx
+
+
+def fun_lab2ej6(x):
+	return 2**(x - 1)
+
+
+def ej6():
+	x0 = range(-5, 6, 1)
+	err = 1e-5  #10**(-5)
+	mit = 100
+    for x in x0:
+    	hx = ripf(fun_lab2ej6, x, err, mit)
+    	if len(hx) < mit:
+    		print("La funcion converje con x0 =", x)
+    		if hx[-1] < 0:
+    			print("Converje hacia los negativos")
+    		elif hx[-1] > 0:
+    			print("Converje hacia los positivos")
+    		else:
+    			print("Converje en cero (0)")
+    	else:
+    		print("La funcion no converje")
+    		print("hx =", hx)
+    	return hx
+
+
 if __name__ == '__main__':
     # ejx_y() ejecutara la funcion del ejercicio n° x inciso y
-    ej4()
+    ej6()
