@@ -3,7 +3,7 @@
 # Autor: @00santiagob (GitHub)
 
 from matplotlib import pyplot as plt
-from math import sqrt, tan
+from math import sqrt, tan, exp
 
 
 def rbisec(fun, I, err, mit):
@@ -110,28 +110,19 @@ def rnewton(fun, x0, err, mit):
     return hx, hf
 
 
-def sqrt3_a(x, a=1):
-    v = x**3 - a  # v = a**(1/3) raiz cubica de a
-    dv = 3*(x**2)  # dv = derivada de v
-    return v, dv
-
-
-def sqrt3_3(x):
-    return x**3 - 3, 3*(x**2)
-
-
 def ej4():
     x0 = 1
     err = 1e-6  # 10**(-6)
     mit = 100
-    # a = int(input("Ingrese el valor de 'a' (mayor a 0): "))
-    hx, hf = rnewton(sqrt3_3, x0, err, mit)
+    a = int(input("Ingrese el valor de 'a' (mayor a 0): "))
+    def sqrt3_a(x): return (x**3 - a, 3*(x**2))
+    hx, hf = rnewton(sqrt3_a, x0, err, mit)
     print("hx =", hx, "\nhf =", hf)
     return hx, hf
 
 
 def ripf(fun, x0, err, mit):
-	# Algoritmo de Iteracion de punto fijo
+    # Algoritmo de Iteracion de punto fijo
     # fun es una funcion que dado un x retorna f(x)
     # x0 es un punto inicial en los reales
     # err es la tolerancia deseada del error
@@ -145,36 +136,67 @@ def ripf(fun, x0, err, mit):
         xn = fun(x0)
         hx.append(xn)
         if abs(xn - x0) < err:
-        	print("El paso es pequeño")
-        	break
+            print("El paso es pequeño")
+            break
         x0 = xn
     return hx
 
 
 def fun_lab2ej6(x):
-	return 2**(x - 1)
+    return 2**(x - 1)
 
 
 def ej6():
-	x0 = range(-5, 6, 1)
-	err = 1e-5  #10**(-5)
-	mit = 100
+    x0 = range(-5, 3, 1)  # Para x0 > 2 la funcion es exponencial, no converge
+    err = 1e-5  # 10**(-5)
+    mit = 100
     for x in x0:
-    	hx = ripf(fun_lab2ej6, x, err, mit)
-    	if len(hx) < mit:
-    		print("La funcion converje con x0 =", x)
-    		if hx[-1] < 0:
-    			print("Converje hacia los negativos")
-    		elif hx[-1] > 0:
-    			print("Converje hacia los positivos")
-    		else:
-    			print("Converje en cero (0)")
-    	else:
-    		print("La funcion no converje")
-    		print("hx =", hx)
-    	return hx
+        hx = ripf(fun_lab2ej6, x, err, mit)
+        if len(hx) < mit:
+            print("La funcion converje con x0 =", x)
+            if hx[-1] < 0:
+                print("Converje hacia los negativos")
+            elif hx[-1] > 0:
+                print("Converje hacia los positivos")
+            else:
+                print("Converje en cero (0)")
+        else:
+            print("La funcion no converje")
+        print("hx =", hx)
+    return hx
+
+
+def ej7():
+    list_x = []
+    n, h = 100, 1.5
+    for i in range(n+1):
+        list_x.append(i*h/n)
+    list_y_bisec = []
+    list_y_newton = []
+    list_y_ipf = []
+    for x in list_x:
+        def lab2ej7(y): return y - exp(-(1 - x*y)**2)
+        def lab2ej7newton(y): return (lab2ej7(y),
+                                      1 - 2*x*exp(-(1-x*y))*(1-x*y))
+        # Biseccion
+        hbisec = rbisec(lab2ej7, [0, 5], 1e-8, 100)
+        list_y_bisec.append(hbisec[0][-1])  # hbisec = [hx,hf]
+        # Newton
+        hnewton = rnewton(lab2ej7newton, 1.2, 1e-8, 100)
+        list_y_newton.append(hnewton[0][-1])  # hnewton = [hx,hf]
+        # Iteracion de punto fijo
+        hipf = ripf(lab2ej7, 3, 1e-8, 100)
+        list_y_ipf.append(hipf[-1])  # hipf = hx
+    print("list_y_bisec =", list_y_bisec)
+    print("list_y_newton =", list_y_newton)
+    print("list_y_ipf =", list_y_ipf)
+    print(len(list_y_bisec), len(list_y_newton), len(list_y_ipf))
+    plt.plot(list_x, list_y_bisec)
+    plt.plot(list_x, list_y_newton)
+    plt.plot(list_x, list_y_ipf)
+    plt.show()
 
 
 if __name__ == '__main__':
     # ejx_y() ejecutara la funcion del ejercicio n° x inciso y
-    ej6()
+    ej7()
