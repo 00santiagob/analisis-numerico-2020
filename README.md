@@ -11,14 +11,18 @@
 Ejercicios del Laboratorio de Analisis Numerico (2020) del FaMAF - UNC
 
 * Lab_1.py esta completo.
-* Lab_2.py esta en proceso.
+* Lab_2.py esta completo.
 * Lab_3.py esta en proceso.
+* Parcial_1.py aun no se ha empezado.
 
 Ademas se uso *autopep8* para el estilo de codigo.
+
+En los codigos se han usado librerias como *Numpy*, *Matplotlib* y *Math* para la realizacion de algunos ejercicios.
 
 ### Requisitos
 
 Tener instalado *__Git__* y  *__Python__* (en lo posible Python3 cualquier version).
+Ademas se recomienda tener instaladas las librerias anteriormente instaladas.
 
 ### Instrucciones
 
