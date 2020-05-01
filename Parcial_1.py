@@ -2,7 +2,7 @@
 # Parcial N°1
 # Autor: @00santiagob (GitHub)
 
-# from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt
 from math import log
 
 
@@ -58,7 +58,7 @@ def ej2_a():
     x0 = 1.4
     err = 1e-6  # 10**(-6)
     mit = 100
-    def f(x): return (log(x)-(1/x), (x-1)/(x**2))
+    def f(x): return (log(x)-(1/x), (x+1)/(x**2))
     hx, hf = rnewton(f, x0, err, mit)
     print("hx =", hx, "\nhf =", hf)
     return hx, hf
@@ -98,7 +98,7 @@ def ej2_c():
     list_y_newton = []
     list_y_steff = []
     for x0 in list_x:
-        def f_newton(x): return (log(x)-(1/x), (x-1)/(x**2))
+        def f_newton(x): return (log(x)-(1/x), (x+1)/(x**2))
         def f_steff(x): return log(x)-(1/x)
         # Newton
         hnewton = rnewton(f_newton, x0, 1e-8, 100)
@@ -109,16 +109,16 @@ def ej2_c():
     print("list_y_newton =", list_y_newton)
     print("list_y_steff =", list_y_steff)
     print("Cantidad de iteraciones de Newton:", len(list_y_newton))
-    print("Cantidad de iteraciones de Steffensen:", len(list_y_ipf))
-    plt.plot(list_x, list_y_newton)
+    print("Cantidad de iteraciones de Steffensen:", len(list_y_steff))
+    # plt.plot(list_x, list_y_newton)
     plt.plot(list_x, list_y_steff)
     plt.show()
 
 
 if __name__ == "__main__":
-    # Ejercicio 1
+    """ Ejercicio 1 """
     # fibonacci()
-    # Ejercicio 2
+    """ Ejercicio 2 """
     # ej2_a()
-    # ej2_c()
-    # Ejercicio 3
+    ej2_c()
+    """ Ejercicio 3 """
