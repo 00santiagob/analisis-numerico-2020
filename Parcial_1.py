@@ -2,8 +2,9 @@
 # Parcial N°1
 # Autor: @00santiagob (GitHub)
 
+import numpy as np
 from matplotlib import pyplot as plt
-from math import log
+from math import log, cos, factorial, pi
 
 
 def fibonacci():
@@ -110,9 +111,77 @@ def ej2_c():
     print("list_y_steff =", list_y_steff)
     print("Cantidad de iteraciones de Newton:", len(list_y_newton))
     print("Cantidad de iteraciones de Steffensen:", len(list_y_steff))
-    # plt.plot(list_x, list_y_newton)
-    plt.plot(list_x, list_y_steff)
+    plt.plot(list_x, list_y_newton, label="Newton")
+    plt.plot(list_x, list_y_newton, ".r", label="Puntos Newton")
+    plt.plot(list_x, list_y_steff, label="Steffensen")
+    plt.plot(list_x, list_y_steff, ".g", label="Puntos Steffensen")
+    plt.xlabel("Eje x")
+    plt.ylabel("Eje y")
+    plt.legend()
+    plt.grid()
     plt.show()
+
+
+def ilagrange(x, y, z):
+    # Algoritmo de Interpolacion de Lagrange
+    # x,y son los pares a interpolar
+    # x,y pertenecen a los reales^n
+    # p(x_i)=y_i con i=1...n
+    # z pertenece a los reales^m
+    # z son valores para evaluar p
+    # w pertenece a los reales^m
+    # w sera la salida tal que w_j = p(z_j) con j=1...m
+    # Inicializo la salida w
+    w = []
+    if len(x) != len(y):
+        print("x,y no tienen el mismo largo")
+        return w
+    n = len(x)
+    m = len(z)
+    for k in range(m):
+        # p es la forma de Lagrange del polinomio interpolante
+        p = 0
+        for i in range(n):
+            # L es el polinomios asociados a los puntos distintos x_1...x_n
+            L = 1
+            for j in range(n):
+                if i != j:
+                    L = L*((z[k] - x[j]) / (x[i] - x[j]))
+            p = p + y[i]*L
+        w.append(p)
+    return w
+
+
+def error_cos(I, n):
+    x = np.linspace(I[0], I[1], n)
+    y = []
+    for punto in x:
+        y.append(cos(punto))
+    lagrange = ilagrange(x, y, x)  # No se que valor darle a z
+    err_cos = 1/factorial(n+1)  # No me doy cuenta de que otra forma hacerlo
+    """
+    f_n = cos(x+(n+1)*pi/2)  # f n-esima de cos(x)
+    productoria = 1
+    for i in range(n+1):
+        productoria = productoria*(x-x[i])
+    err_cos = f_n/factorial(n+1).productoria
+    """
+    # En un intervalo [0,1]
+    # Se que productoria <= 1
+    # Se que f_n <= 1
+    # Entonces abs(cos(x) - lagrange(x)) = 1/factorial(n+1)
+    return err_cos
+
+
+def ej3_b():
+    i = [0, 1]
+    error = 1e-6
+    puntos = 1
+    err_cos = 1
+    while err_cos >= error:
+        puntos = puntos + 1
+        err_cos = error_cos(i, puntos)
+    print("Se necesitan {} puntos".format(puntos))
 
 
 if __name__ == "__main__":
@@ -120,5 +189,6 @@ if __name__ == "__main__":
     # fibonacci()
     """ Ejercicio 2 """
     # ej2_a()
-    ej2_c()
+    # ej2_c()
     """ Ejercicio 3 """
+    # ej3_b()
