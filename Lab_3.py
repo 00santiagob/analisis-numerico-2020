@@ -5,6 +5,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.interpolate import interp1d, CubicSpline
 
 
 def ilagrange(x, y, z):
@@ -127,5 +128,40 @@ def ej4():
     plt.show()
 
 
+def ej5():
+    # Matriz de datos
+    # La primera columna son los años
+    # Las otras columnas son las temperaturas, solo queremos la primera columna
+    datos = np.loadtxt('./datos/datos_aeroCBA.dat')
+    # El metodo .shape[i] de una matriz nos dice la forma de la matriz
+    # La cantidad de filas de una matriz
+    filas = datos.shape[0]
+    # Separamos los datos
+    años = []
+    temperaturas = []
+    # Las funciones de interpolación, sólo funcionan si no tenemos NaN's
+    # Debemos filtrarlos usando la función de numpy "isnan"
+    for fila in range(filas):
+        temp = datos[fila][1]
+        if not np.isnan(temp):
+            años.append(datos[fila][0])
+            temperaturas.append(temp)
+    # CubicSpline genera el polinomio interpolante por spline cubico
+    # Necesitaremos extrapolar, podemos usar extrapolate (si no se rompe)
+    polinomio = CubicSpline(años, temperaturas, extrapolate=True)
+    # Generar la lista de años a evaluar en nuestro polinomio, 1957-2017
+    puntos = list(range(1957, 2018))
+    # Evaluamos el polinomio en los puntos generados.
+    final = polinomio(puntos)
+    # Vamos a dibujar nuestro gráfico
+    plt.style.use('dark_background')
+    plt.plot(puntos, final)
+    plt.title("Temperaturas promedio en Córdoba, 1957-2017")
+    plt.xlabel("Años")
+    plt.ylabel("Temperaturas [°C]")
+    plt.grid()
+    plt.show()
+
+
 if __name__ == "__main__":
-    ej4()
+    ej5()
