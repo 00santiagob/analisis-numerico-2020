@@ -5,7 +5,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.interpolate import interp1d, CubicSpline
+from scipy.interpolate import CubicSpline
 
 
 def ilagrange(x, y, z):
