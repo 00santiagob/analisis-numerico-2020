@@ -8,21 +8,24 @@ from math import log, cos, factorial, pi
 
 
 def fibonacci():
+    # Metodo de Fibonacci (Iterativo)
     # Inicializo la lista donde se almacenara la sucesion de fibonacci
     fb = []
     # Ingresamos hasta que numero queremos que resuelva fibonacci
-    n = input("Ingresar el valor de n: ")
+    n = int(input("Ingresar el valor de n: "))
     if type(n) != int:
         print("El valor de 'n' debe ser un entero positivo")
     elif n < 0:
         print("El valor de 'n' no puede ser menor que 0")
+    elif n == 0 or n == 1:  # Casos base
+        fb.append(n)  # fibonacci(0) = 0 y fibonacci(1) = 1
     else:
-        for i in range(n+1):
-            if i <= 1:
-                fb.append(i)
-            else:
+        fb.append(1)  # fibonacci(1) = 1
+        fb.append(1)  # fibonacci(2) = 1
+        if n > 2:
+            for i in range(2, n):
                 fb.append(fb[i-2] + fb[i-1])
-    print(fb)
+    print("Los primeros {} elementos:\n".format(n), fb)
     return fb
 
 
@@ -56,10 +59,10 @@ def rnewton(fun, x0, err, mit):
 
 
 def ej2_a():
-    x0 = 1.4
+    x0 = 1.4  # Punto inicial
     err = 1e-6  # 10**(-6)
-    mit = 100
-    def f(x): return (log(x)-(1/x), (x+1)/(x**2))
+    mit = 100  # Maximo de iteraciones
+    def f(x): return (log(x)-(1/x), (x+1)/(x**2))  # f(x) y su derivada f'(x)
     hx, hf = rnewton(f, x0, err, mit)
     print("hx =", hx, "\nhf =", hf)
     return hx, hf
@@ -95,26 +98,37 @@ def rsteff(fun, x0, err, mit):
 
 
 def ej2_c():
-    list_x = [1.39, 1.40, 1.41, 3]
-    list_y_newton = []
-    list_y_steff = []
+    def f(x): return log(x)-(1/x)
+    def f_f1(x): return (log(x)-(1/x), (x+1)/(x**2))
+    list_x = [1.39, 1.40, 1.41, 3]  # Puntos iniciales alrededor
+    list_y = []
+    res_newton = []
+    res_steff = []
+    ite_newton = []
+    ite_steff = []
     for x0 in list_x:
-        def f_newton(x): return (log(x)-(1/x), (x+1)/(x**2))
-        def f_steff(x): return log(x)-(1/x)
+        # f(x)
+        list_y.append(f(x0))
         # Newton
-        hnewton = rnewton(f_newton, x0, 1e-8, 100)
-        list_y_newton.append(hnewton[0][-1])  # hnewton = [hx,hf]
+        hnx, _ = rnewton(f_f1, x0, 1e-8, 100)
+        ite_newton.append(len(hnx))
+        res_newton.append(hnx[-1])
         # Steffensen
-        hsteff = rsteff(f_steff, x0, 1e-8, 100)
-        list_y_steff.append(hsteff[0][-1])  # hsteff = [hx,hf]
-    print("list_y_newton =", list_y_newton)
-    print("list_y_steff =", list_y_steff)
-    print("Cantidad de iteraciones de Newton:", len(list_y_newton))
-    print("Cantidad de iteraciones de Steffensen:", len(list_y_steff))
-    plt.plot(list_x, list_y_newton, label="Newton")
-    plt.plot(list_x, list_y_newton, ".r", label="Puntos Newton")
-    plt.plot(list_x, list_y_steff, label="Steffensen")
-    plt.plot(list_x, list_y_steff, ".g", label="Puntos Steffensen")
+        hsx, _ = rsteff(f, x0, 1e-8, 100)
+        ite_steff.append(len(hsx))
+        res_steff.append(hsx[-1])
+    # Raices resultantes para cada x0
+    print("Raices resultantes de Newton:", res_newton)
+    print("Raices resultantes de Steffensen:", res_steff)
+    # Cantidad de iteraciones en cada x0
+    print("Cantidad de iteraciones de Newton:", ite_newton)
+    print("Cantidad de iteraciones de Steffensen:", ite_steff)
+    # Graficos
+    plt.plot(list_x, list_y, ".", label="Puntos f(x)")
+    plt.plot(list_x, res_newton, ".r", label="Puntos Newton")
+    plt.plot(list_x, res_newton, label="Newton")
+    plt.plot(list_x, res_steff, label="Steffensen")
+    plt.plot(list_x, res_steff, ".g", label="Puntos Steffensen")
     plt.xlabel("Eje x")
     plt.ylabel("Eje y")
     plt.legend()
@@ -122,43 +136,8 @@ def ej2_c():
     plt.show()
 
 
-def ilagrange(x, y, z):
-    # Algoritmo de Interpolacion de Lagrange
-    # x,y son los pares a interpolar
-    # x,y pertenecen a los reales^n
-    # p(x_i)=y_i con i=1...n
-    # z pertenece a los reales^m
-    # z son valores para evaluar p
-    # w pertenece a los reales^m
-    # w sera la salida tal que w_j = p(z_j) con j=1...m
-    # Inicializo la salida w
-    w = []
-    if len(x) != len(y):
-        print("x,y no tienen el mismo largo")
-        return w
-    n = len(x)
-    m = len(z)
-    for k in range(m):
-        # p es la forma de Lagrange del polinomio interpolante
-        p = 0
-        for i in range(n):
-            # L es el polinomios asociados a los puntos distintos x_1...x_n
-            L = 1
-            for j in range(n):
-                if i != j:
-                    L = L*((z[k] - x[j]) / (x[i] - x[j]))
-            p = p + y[i]*L
-        w.append(p)
-    return w
-
-
 def error_cos(I, n):
-    x = np.linspace(I[0], I[1], n)
-    y = []
-    for punto in x:
-        y.append(cos(punto))
-    lagrange = ilagrange(x, y, x)  # No se que valor darle a z
-    err_cos = 1/factorial(n+1)  # No me doy cuenta de que otra forma hacerlo
+    # El error de interpolar el polinomio para la funcion cos(x):
     """
     f_n = cos(x+(n+1)*pi/2)  # f n-esima de cos(x)
     productoria = 1
@@ -170,13 +149,14 @@ def error_cos(I, n):
     # Se que productoria <= 1
     # Se que f_n <= 1
     # Entonces abs(cos(x) - lagrange(x)) = 1/factorial(n+1)
+    err_cos = 1/factorial(n+1)
     return err_cos
 
 
 def ej3_b():
     i = [0, 1]
     error = 1e-6
-    puntos = 1
+    puntos = 1  # n es la cantidad de puntos
     err_cos = 1
     while err_cos >= error:
         puntos = puntos + 1
@@ -189,6 +169,6 @@ if __name__ == "__main__":
     # fibonacci()
     """ Ejercicio 2 """
     # ej2_a()
-    # ej2_c()
+    ej2_c()
     """ Ejercicio 3 """
     # ej3_b()

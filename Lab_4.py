@@ -38,8 +38,27 @@ def ej1_a():
 
 
 def ej1_b():
-    pass
+    def f(x): return (3/4)*x - (1/2)
+    xi = np.random()
+    yi = []
+    for i in xi:
+        yi.append(f(i))
+    coef = np.polyfit(xi, yi, 1)
+    x = np.linspace(0, 10, 20)
+    y = []
+    for i in xi:
+        y.append(np.polyval(coef, i))
+    # Grafico
+    plt.style.use('dark_background')
+    plt.plot(xi, y, 'r', label="Polinomio generado")
+    plt.plot(xi, yi, '.y', label="Valores generados")
+    plt.xlabel("Eje X")
+    plt.ylabel("Eje Y")
+    plt.title("Aproximacion por cuadrados minimos (polyval y polyfit)")
+    plt.legend
+    plt.grid()
+    plt.show()
 
 
 if __name__ == "__main__":
-    ej1_a()
+    ej1_b()
