@@ -112,17 +112,17 @@ def ej2_c():
         # Newton
         hnx, _ = rnewton(f_f1, x0, 1e-8, 100)
         ite_newton.append(len(hnx))
-        res_newton.append(hnx[-1])
+        res_newton.append(hnx)
         # Steffensen
         hsx, _ = rsteff(f, x0, 1e-8, 100)
         ite_steff.append(len(hsx))
-        res_steff.append(hsx[-1])
+        res_steff.append(hsx)
     # Raices resultantes para cada x0
-    print("Raices resultantes de Newton:", res_newton)
-    print("Raices resultantes de Steffensen:", res_steff)
-    # Cantidad de iteraciones en cada x0
-    print("Cantidad de iteraciones de Newton:", ite_newton)
-    print("Cantidad de iteraciones de Steffensen:", ite_steff)
+    print("Resultados de Newton para cada x0:", *res_newton, sep='\n')
+    print("Resultados de Steffensen para cada x0:", *res_steff, sep='\n')
+    # Cantidad de pasos para cada x0
+    print("Cantidad de pasos de Newton para cada x0:", ite_newton)
+    print("Cantidad de pasos de Steffensen para cada x0:", ite_steff)
     # Graficos
     plt.plot(list_x, list_y, ".", label="Puntos f(x)")
     plt.plot(list_x, res_newton, ".r", label="Puntos Newton")
