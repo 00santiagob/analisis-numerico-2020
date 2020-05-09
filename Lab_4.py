@@ -5,6 +5,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from math import asin, cos, pi
 
 
 def ej1_a():
@@ -75,15 +76,13 @@ def ej2_a():
         y.append(f(i))
     residuos = []
     for n in range(6):
-        residuos.append(list(np.polyfit(x, y, n, full=True)))
-    print("Residuos para n={}:".format(n), *residuos, sep='\n')
-    sumTotal = 0
-    sumParcial = []
+        coef, residuo, _, _, _ = np.polyfit(x, y, n, full=True)
+        residuos.append(residuo)
+    print("Residuos", *residuos, sep='\n')
+    sumR = 0
     for i in residuos:
-        sumTotal = sumTotal + sum(i)
-        sumParcial.append(sum(i))
-    print("Suma Parcial:", *sumParcial, sep='\n')
-    print("Suma Total:", sumTotal)
+        sumR = sumR + sum(i)
+    print("Suma Residual:", sumR)
 
 
 def ej2_b():
@@ -94,36 +93,100 @@ def ej2_b():
         y.append(f(i))
     residuos = []
     for n in range(6):
-        residuos.append(list(np.polyfit(x, y, n)))
-    print("Residuos para n={}:".format(n), *residuos, sep='\n')
-    sumTotal = 0
-    sumParcial = []
+        coef, residuo, _, _, _ = np.polyfit(x, y, n, full=True)
+        residuos.append(residuo)
+    print("Residuos", *residuos, sep='\n')
+    sumR = 0
     for i in residuos:
-        sumTotal = sumTotal + sum(i)
-        sumParcial.append(sum(i))
-    print("Suma Parcial:", *sumParcial, sep='\n')
-    print("Suma Total:", sumTotal)
+        sumR = sumR + sum(i)
+    print("Suma Residual:", sumR)
 
 
 def ej3_a():
-    data = np.loadtxt('analisis-numerico-2020/datos/datos3a.dat')
+    data = np.loadtxt('datos/datos3a.dat')
     # y = C * x**A --> ln(y) = ln(C) + A*ln(x)
-    # entonces y_hat = c_hat + A**x_hat, donde y_hat = ln(y), c_hat = ln(C)
+    # y_hat = c_hat + A**x_hat, donde y_hat=ln(y), c_hat=ln(C), x_hat=ln(x)
     x = data[0]
     y = data[1]
     x_hat = np.log(x)
     y_hat = np.log(y)
     coef = np.polyfit(x_hat, y_hat, 1)
-    print("coef =", coef)
-    C = np.exp(coef[0])
-    A = np.exp(coef[1])
-    print(C, A)
-    print(np.polyval([A, C], 1))
-    print(np.polyval([C, A], 1))
-    print(np.polyval([2, 3], 1))
-    print(np.polyval([3, 2], 1))
+    A = coef[0]
+    C = np.exp(coef[1])  # c_hat = coef[1]
+    print("C =", C)
+    print("A =", A)
+    y_new = []
+    for i in x:
+        y_new.append(C*(i**A))
+    plt.style.use('dark_background')
+    plt.plot(x, y_new, 'r', label='funcion')
+    plt.plot(x, y, '.y', label='datos')
+    plt.xlabel("Eje X")
+    plt.ylabel("Eje Y")
+    plt.title("Ajuste de los datos3a.dat")
+    plt.legend()
+    plt.grid()
+    plt.show()
 
+
+def ej3_b():
+    data = np.loadtxt('datos/datos3b.dat')
+    # y = x / (A*x + B) --> (1/y) = A + (1/x)*B
+    # y_hat = A + x_hat*B, donde y_hat = 1/y, x_hat = 1/x
+    x = data[0]
+    y = data[1]
+    x_hat = 1/x
+    y_hat = 1/y
+    coef = np.polyfit(x_hat, y_hat, 1)
+    B = coef[0]
+    A = coef[1]
+    print("B =", B)
+    print("A =", A)
+    y_new = []
+    for i in x:
+        y_new.append(i / (A*i + B))
+    plt.style.use('dark_background')
+    plt.plot(x, y_new, 'g', label='funcion')
+    plt.plot(x, y_new, '.r', label='funcion')
+    plt.plot(x, y, '.y', label='datos')
+    plt.xlabel("Eje X")
+    plt.ylabel("Eje Y")
+    plt.title("Ajuste de los datos3b.dat")
+    plt.legend()
+    plt.grid()
+    plt.show()
+
+
+def ej4():
+    # y = a*(e**(b*x)) --> ln(y) = ln(a) + b*x
+    # y_hat = a_hat + b*x, donde y_hat = ln(y), a_hat = ln(a)
+    datos = np.genfromtxt('datos/covid_italia.csv', delimiter=',')
+    filas = datos.shape[0]
+    x, y = [], []
+    for fila in range(filas):
+        xAux, yAux = datos[fila]
+        x.append(xAux)
+        y.append(yAux)
+    y_hat = np.log(y)
+    coef = np.polyfit(x, y_hat, 1)
+    b = coef[0]
+    a = np.exp(coef[1])
+    print("a =", a)
+    print("b =", b)
+    y_new = []
+    for i in x:
+        y_new.append(a*np.exp(b*i))
+    # Graficos
+    plt.style.use('dark_background')
+    plt.plot(x, y_new, 'r', label='Funcion')
+    plt.plot(x, y, '.y', label='Datos')
+    plt.xlabel("Eje X")
+    plt.ylabel("Eje Y")
+    plt.title("Covid-19 Italia")
+    plt.legend()
+    plt.grid()
+    plt.show()
 
 
 if __name__ == "__main__":
-    ej2_a()
+    ej4()
