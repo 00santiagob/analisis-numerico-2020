@@ -38,9 +38,11 @@ def ej2():
 
 def ej3():
     """
-    Overflow: cuando se trata de representar un numero grande que tiende a infinito y la maquina no lo soporta.
+    Overflow: cuando se trata de representar un numero grande que tiende a
+    infinito y la maquina no lo soporta.
 
-    Underflow: cuando se trata de representar un numero muy chico que tiende a 0 y la maquina no lo soporta.
+    Underflow: cuando se trata de representar un numero muy chico que tiende a
+    0 y la maquina no lo soporta.
 
     Para este ejercicio se usa isinf de la libreria numpy.
     """

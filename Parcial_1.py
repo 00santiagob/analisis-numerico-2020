@@ -54,7 +54,7 @@ def rnewton(fun, x0, err, mit):
     if dv == 0:
         print("La derivada es nula en tal punto")
     if abs((xn - x0)/xn) < err:
-        print("El paso es muy pequeño")
+        print("El paso es muy pequeno")
     return hx, hf
 
 
@@ -62,6 +62,7 @@ def ej2_a():
     x0 = 1.4  # Punto inicial
     err = 1e-6  # 10**(-6)
     mit = 100  # Maximo de iteraciones
+
     def f(x): return (log(x)-(1/x), (x+1)/(x**2))  # f(x) y su derivada f'(x)
     hx, hf = rnewton(f, x0, err, mit)
     print("hx =", hx, "\nhf =", hf)
@@ -79,7 +80,7 @@ def rsteff(fun, x0, err, mit):
     hf = []
     k = 0
     f = fun(x0)
-    g = (fun(x0)**2)/(fun(x0+fun(x0))-fun(x0))
+    g = (f**2)/(fun(x0+f)-f)
     hx.append(x0)
     hf.append(f)
     xn = x0 - g
@@ -88,27 +89,25 @@ def rsteff(fun, x0, err, mit):
         k = k + 1
         x0 = xn
         f = fun(x0)
-        g = (fun(x0)**2)/(fun(x0+fun(x0))-fun(x0))
+        g = (f**2)/(fun(x0+f)-f)
         hx.append(x0)
         hf.append(f)
         xn = x0 - g
     if abs((xn - x0)/xn) < err:
-        print("El paso es muy pequeño")
+        print("El paso es muy pequeno")
     return hx, hf
 
 
 def ej2_c():
     def f(x): return log(x)-(1/x)
+
     def f_f1(x): return (log(x)-(1/x), (x+1)/(x**2))
     list_x = [1.39, 1.40, 1.41, 3]  # Puntos iniciales alrededor
-    list_y = []
     res_newton = []
     res_steff = []
     ite_newton = []
     ite_steff = []
     for x0 in list_x:
-        # f(x)
-        list_y.append(f(x0))
         # Newton
         hnx, _ = rnewton(f_f1, x0, 1e-8, 100)
         ite_newton.append(len(hnx))
@@ -123,17 +122,6 @@ def ej2_c():
     # Cantidad de pasos para cada x0
     print("Cantidad de pasos de Newton para cada x0:", ite_newton)
     print("Cantidad de pasos de Steffensen para cada x0:", ite_steff)
-    # Graficos
-    plt.plot(list_x, list_y, ".", label="Puntos f(x)")
-    plt.plot(list_x, res_newton, ".r", label="Puntos Newton")
-    plt.plot(list_x, res_newton, label="Newton")
-    plt.plot(list_x, res_steff, label="Steffensen")
-    plt.plot(list_x, res_steff, ".g", label="Puntos Steffensen")
-    plt.xlabel("Eje x")
-    plt.ylabel("Eje y")
-    plt.legend()
-    plt.grid()
-    plt.show()
 
 
 def error_cos(I, n):
@@ -145,11 +133,12 @@ def error_cos(I, n):
         productoria = productoria*(x-x[i])
     err_cos = f_n/factorial(n+1).productoria
     """
-    # En un intervalo [0,1]
-    # Se que productoria <= 1
-    # Se que f_n <= 1
+    # En un intervalo [0,1], va a pasar lo siguiente
+    # productoria <= 1
+    # f_n <= 1
     # Entonces abs(cos(x) - lagrange(x)) = 1/factorial(n+1)
-    err_cos = 1/factorial(n+1)
+    # Pero nosotros lo queremos ver para un intervalo [a,b] con a,b culquieras
+    err_cos = abs(I[1]-I[0])**n/factorial(n+1)
     return err_cos
 
 
@@ -169,6 +158,6 @@ if __name__ == "__main__":
     # fibonacci()
     """ Ejercicio 2 """
     # ej2_a()
-    ej2_c()
+    # ej2_c()
     """ Ejercicio 3 """
-    # ej3_b()
+    ej3_b()

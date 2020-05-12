@@ -1,5 +1,5 @@
 # Analisis Numerico (2020)
-# Trabajo de Laboratorio N°2
+# Trabajo de Laboratorio N°3
 # Autor: @00santiagob (GitHub)
 
 

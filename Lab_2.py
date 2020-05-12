@@ -115,6 +115,7 @@ def ej4():
     err = 1e-6  # 10**(-6)
     mit = 100
     a = int(input("Ingrese el valor de 'a' (mayor a 0): "))
+
     def sqrt3_a(x): return (x**3 - a, 3*(x**2))
     hx, hf = rnewton(sqrt3_a, x0, err, mit)
     print("hx =", hx, "\nhf =", hf)
@@ -175,7 +176,9 @@ def ej7():
     list_y_newton = []
     list_y_ipf = []
     for x in list_x:
+
         def lab2ej7(y): return y - exp(-(1 - x*y)**2)
+
         def lab2ej7newton(y): return (lab2ej7(y),
                                       1 - 2*x*exp(-(1-x*y))*(1-x*y))
         # Biseccion

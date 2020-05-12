@@ -1,5 +1,5 @@
 # Analisis Numerico (2020)
-# Trabajo de Laboratorio N°2
+# Trabajo de Laboratorio N°4
 # Autor: @00santiagob (GitHub)
 
 
@@ -57,7 +57,7 @@ def ej1_b():
         y.append(np.polyval(coef, i))
     # Grafico
     plt.style.use('dark_background')
-    plt.plot(xi, y, 'g', label="Recta (polyval con")
+    plt.plot(xi, y, 'g', label="Ajuste")
     plt.plot(xi, yi, '.r', label="Valores f(x)")
     plt.plot(xi, y_norm, '.y', label="Polinomio generado")
     plt.xlabel("Eje X")
