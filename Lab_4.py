@@ -133,8 +133,8 @@ def ej3_b():
     data = np.loadtxt('datos/datos3b.dat')
     # y = x / (A*x + B) --> (1/y) = A + (1/x)*B
     # y_hat = A + x_hat*B, donde y_hat = 1/y, x_hat = 1/x
-    x = data[0]
-    y = data[1]
+    x = data[0, 1:]
+    y = data[1, 1:]
     x_hat = 1/x
     y_hat = 1/y
     coef = np.polyfit(x_hat, y_hat, 1)
@@ -142,18 +142,15 @@ def ej3_b():
     A = coef[1]
     print("B =", B)
     print("A =", A)
-    y_new = []
-    for i in x:
-        y_new.append(i / (A*i + B))
+    y_new = np.divide(x, (A*x + B))
     plt.style.use('dark_background')
-    plt.plot(x, y_new, 'g', label='funcion')
-    plt.plot(x, y_new, '.r', label='funcion')
-    plt.plot(x, y, '.y', label='datos')
-    plt.xlabel("Eje X")
-    plt.ylabel("Eje Y")
-    plt.title("Ajuste de los datos3b.dat")
-    plt.legend()
-    plt.grid()
+    fig, ax = plt.subplots(2, 1)
+    ax[0].plot(x, y, '.r', label='datos')
+    ax[0].plot(x, y_new, 'y', label='f(x)')
+    ax[1].plot(x_hat, y_hat, '.r', label='datos')
+    ax[1].plot(x_hat, (A+(B*x_hat)), 'g', label='Recta')
+    ax[0].legend()
+    ax[1].legend()
     plt.show()
 
 
@@ -176,15 +173,16 @@ def ej4():
     y_new = []
     for i in x:
         y_new.append(a*np.exp(b*i))
+    xb = [i * b for i in x]
     # Graficos
     plt.style.use('dark_background')
-    plt.plot(x, y_new, 'r', label='Funcion')
-    plt.plot(x, y, '.y', label='Datos')
-    plt.xlabel("Eje X")
-    plt.ylabel("Eje Y")
-    plt.title("Covid-19 Italia")
-    plt.legend()
-    plt.grid()
+    fig, ax = plt.subplots(2, 1)
+    ax[0].plot(x, y_new, 'g', label='Funcion')
+    ax[0].plot(x, y, '.r', label='Datos')
+    ax[0].legend()
+    ax[1].plot(x, (coef[1] + xb), 'y', label='Funcion')
+    ax[1].plot(x, y_hat, '.r', label='Datos')
+    ax[1].legend()
     plt.show()
 
 
