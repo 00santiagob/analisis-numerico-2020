@@ -27,11 +27,17 @@ En los codigos se han usado librerias como ***Numpy***, ***Scipy***, ***Matplotl
 ### Temario
 
    1. Preliminares matematicas: errores, punto flotante, redondeo
+        * (Las clases anterirores quedan pendientes), [Clase 3](pdf/AN2020-C3.pdf)
    2. Re-Solucion de ecuaciones no lineales
+        * [Clase 4](pdf/AN2020-C4.pdf), [Clase 5](pdf/AN2020-C5.pdf), [Clase 6](pdf/AN2020-C6.pdf)
    3. Interpolacion polinomial
+        * [Clase 7](pdf/AN2020-C7.pdf), [Clase 8](pdf/AN2020-C8.pdf), [Clase 9](pdf/AN2020-C9.pdf)
    4. Aproximacion (Ajuste de datos)
+        * [Clase 10](pdf/AN2020-C10.pdf), [Clase 11](pdf/AN2020-C11.pdf), [Clase 12](pdf/AN2020-C12.pdf)
    5. Integracion numerica
+        * [Clase 13](pdf/AN2020-C13.pdf), [Clase 14](pdf/AN2020-C14.pdf), [Clase 15](pdf/AN2020-C15.pdf)
    6. Re-Soluciones de ecuaciones lineales
+        * [Clase 16](pdf/AN2020-C16.pdf)
    7. Programacion lineal
 
 ## Requisitos

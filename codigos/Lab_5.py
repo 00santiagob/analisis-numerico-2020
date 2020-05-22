@@ -82,7 +82,7 @@ def ej2():
 def ej3():
     # x pertenece a los Reales^n
     def senint(xi):
-        Ni = ceil(xi / 0.1 + 1)
+        Ni = ceil(xi / 0.1) + 1
         return intenumcomp(cos, 0, xi, Ni, "trapecio")
     pi2 = 2 * pi
     x = np.arange(0, pi2+0.5, 0.5)  # Espaciados 0.5 desde 0 hasta pi2+0.5
@@ -131,8 +131,8 @@ def ej4():
     """ c)
     f²(µ) = (3 + 6*(x**2)) * (1 + (x**2))**(-1/2)
     ==> f²(a) = 3, f²(b) = 6.36
-    f⁴(µ) = (9 - 12*(x**2)) * (1 + (x**2))**(-5/2)
-    ==> f⁴(a) = 9, f⁴(b) = -0.53
+    f⁴(µ) = 9 * (1 + (x**2))**(-5/2)
+    ==> f⁴(a) = 9, f⁴(b) = 1.59
     """
     """ d)
     f²(µ) = NO LO HICE
@@ -163,4 +163,4 @@ def ej6(x):
 
 
 if __name__ == "__main__":
-    ej5()
+    ej3()
