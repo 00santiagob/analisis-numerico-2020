@@ -15,29 +15,22 @@ Ejercicios del Laboratorio de Analisis Numerico (2020) del FaMAF - UNC (FaMAFyC)
 * **Lab_2.py** (*completo* - Temario 2).
 * **Lab_3.py** (*completo* - Temario 3).
 * **Lab_4.py** (*completo* - Temario 4).
-* **Lab_5.py** (*en proceso* - Temario 5).
-* **Lab_6.py** (*en proceso* - Temario 6).
+* **Lab_5.py** (*completo* - Temario 5).
+* **Lab_6.py** (*completo* - Temario 6).
 * **Parcial_1.py** (*completo* - Temarios 1, 2 y 3).
-* **Parcial_2.py** (*en proceso* - Temarios 4, 5 y 6).
+* **Parcial_2.py** (*completo* - Temarios 4, 5 y 6).
 
-Ademas se uso *autopep8* para el estilo de codigo.
-
-En los codigos se han usado librerias como ***Numpy***, ***Scipy***, ***Matplotlib*** y ***Math*** para la realizacion de algunos ejercicios.
+Para este repositorio se uso *autopep8* para el estilo de codigo, lo cual hizo que no se pueda usar funciones lambda.
+Ademas se han usado librerias como ***Numpy***, ***Scipy***, ***Matplotlib*** y ***Math*** para la realizacion de algunos ejercicios.
 
 ### Temario
 
    1. Preliminares matematicas: errores, punto flotante, redondeo
-        * (Las clases anterirores quedan pendientes), [Clase 3](pdf/AN2020-C3.pdf)
    2. Re-Solucion de ecuaciones no lineales
-        * [Clase 4](pdf/AN2020-C4.pdf), [Clase 5](pdf/AN2020-C5.pdf), [Clase 6](pdf/AN2020-C6.pdf)
    3. Interpolacion polinomial
-        * [Clase 7](pdf/AN2020-C7.pdf), [Clase 8](pdf/AN2020-C8.pdf), [Clase 9](pdf/AN2020-C9.pdf)
    4. Aproximacion (Ajuste de datos)
-        * [Clase 10](pdf/AN2020-C10.pdf), [Clase 11](pdf/AN2020-C11.pdf), [Clase 12](pdf/AN2020-C12.pdf)
    5. Integracion numerica
-        * [Clase 13](pdf/AN2020-C13.pdf), [Clase 14](pdf/AN2020-C14.pdf), [Clase 15](pdf/AN2020-C15.pdf)
    6. Re-Soluciones de ecuaciones lineales
-        * [Clase 16](pdf/AN2020-C16.pdf)
    7. Programacion lineal
 
 ## Requisitos
@@ -55,7 +48,7 @@ Primero descargar el repositorio __analisis-numerico-2020__:
 
 2) Para correr algun ejercicio entrar en algun archivo **Lab_x.py**, donde _x_ es el numero correspondiente a cada practico.
 
-3) En la parte inferior cambiar la llamada a la funcion **ejx()** por el que deseen, donde _x_ es el numero de ejercicio.
+3) En la parte inferior cambiar la llamada a la funcion **ejx()** por el que deseen, donde _x_ es el numero de ejercicio. En algunos casos especificos el nombre de la funcion es de la forma **ejx_y()** donde _x_ es la misma que antes y la _y_ corresponde a los incisos de algunos ejercicios.
 
 ### Como Instalar
 
@@ -75,10 +68,11 @@ Abrir la terminal y correr el siguiente comando:
 
 #### Evitar errores
 
-Chequear que esten instaladas las librerias *Numpy* y *Matplotlib*, en caso de no estarlo correr lo siguiente en la terminal (powershell en caso de usar Windows):
+Chequear que esten instaladas las librerias *Numpy*, *Matplotlib* y *SciPy*, en caso de no estarlo correr lo siguiente en la terminal (powershell en caso de usar Windows):
 
         pip3 install numpy
         pip3 install matplotlib
+        pip3 install scipy
 
 > **Nota:** en caso de ya tenerlos instalados es suficientes (no importa la version).
 >
@@ -97,6 +91,6 @@ Posiblemente en linux aparezcan errores al instalar la libreria *Matplotlib*, da
 >       sudo apt update && sudo apt upgrade
 >       pip3 install matplotlib
 >
-> **Cualquier otro error se agradece que lo comenten abriendo una issu nueva.**
+> **Cualquier otro error se agradece que lo comenten abriendo una issue nueva.**
 >
 > **Gracias y disfruten**
