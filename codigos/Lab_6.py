@@ -59,7 +59,7 @@ def egauss(A, b):
             if U[k][k] == 0:
                 print("No esta contemplado el intercambio entre filas")
                 print("No puede haber elemento pivote igual a 0")
-                return None
+                return [], []
             m = U[i][k] / U[k][k]
             U[i][k] = 0
             for j in range(k+1, n):
@@ -102,26 +102,24 @@ def sollu(A, b):
     # Pero la que se pide es:
     # L, U = lu(A) sin pivoteo ==> p = np.eyes(A.shape[0]) matriz identidad
     p, l, u = linalg.lu(A)  # con pivoteo
-    y = soltrinf(l, p @ b)
+    y = soltrinf(l, p.T @ b)
     x = soltrsup(u, y)
     return x
 
 
 def ej4():
-    A = np.array([[4, -1, 0], [-1, 4, -1], [0, -1, 4]], int)
-    nI = (-1) * np.eye(3, dtype=int)
-    b1 = np.hstack((np.ones(3, int), np.zeros(3, int)))
-    b2 = np.ones(6, int)
+    A = np.array([[4, -1, 0], [-1, 4, -1], [0, -1, 4]])
+    nI = (-1) * np.eye(3)
+    b1 = np.hstack((np.ones(3), np.zeros(3)))
+    b2 = np.ones(6)
     A = np.vstack((np.hstack((A, nI)), np.hstack((nI, A))))
-    # A=np.array([[6,-2,2,4],[12,-8,6,10],[3,-13,9,3],[-6,4,1,-18]])
-    # b1 = np.array([12, 34, 27, -38])
     x1_eg = soleg(A, b1)
     x2_eg = soleg(A, b2)
     x1_lu = sollu(A, b1)
     x2_lu = sollu(A, b2)
     print("soleg(A, b1) =", x1_eg)
-    print("soleg(A, b2) =", x2_eg)
     print("sollu(A, b1) =", x1_lu)
+    print("soleg(A, b2) =", x2_eg)
     print("sollu(A, b2) =", x2_lu)
 
 
@@ -130,9 +128,24 @@ def jacobi(A, b, err, mit):
     # b es un vector R^n
     # err es la tolerancia de error
     # mit es la cantidad maxima de iteraciones
+    n = A.shape[0]
     # x es la solucion aproximada
+    x = np.zeros(n)
+    u = np.zeros(n)
     # k es la cantidad de iteraciones realizadas
-    x, k = 0, 0
+    for k in range(mit):
+        for i in range(n):
+            s1, s2 = 0, 0
+            for j in range(i):
+                if j != i:
+                    s1 = s1 + (A[i][j] * x[j])
+            for j in range(i+1, n):
+                s2 = s2 + (A[i][j] * x[j])
+            u[i] = (1/A[i][i])*(b[i] - s1 - s2)
+        if abs(np.max(np.add(u, (-1)*x))) < err:
+            return u, k
+        for i in range(n):
+            x[i] = u[i]
     return x, k
 
 
@@ -141,9 +154,24 @@ def gseidel(A, b, err, mit):
     # b es un vector R^n
     # err es la tolerancia de error
     # mit es la cantidad maxima de iteraciones
+    n = A.shape[0]
     # x es la solucion aproximada
+    x = np.zeros(n)
+    u = np.zeros(n)
     # k es la cantidad de iteraciones realizadas
-    x, k = 0, 0
+    for k in range(mit):
+        for i in range(n):
+            s1, s2 = 0, 0
+            for j in range(i):
+                if j != i:
+                    s1 = s1 + (A[i][j] * u[j])
+            for j in range(i+1, n):
+                s2 = s2 + (A[i][j] * x[j])
+            u[i] = (1/A[i][i])*(b[i] - s1 - s2)
+        if abs(np.max(np.add(u, (-1)*x))) < err:
+            return u, k
+        for i in range(n):
+            x[i] = u[i]
     return x, k
 
 
@@ -154,16 +182,29 @@ def ej6():
     err1 = 1e-11
     x1_j, k1_j = jacobi(A1, b1, err1, mit)
     x1_gs, k1_gs = gseidel(A1, b1, err1, mit)
-    print("Caso (1): se requirieron {} iteraciones utilizando Jacobi")
-    print("Caso (1): se requirieron {} iteraciones utilizando Gauss-Seidel")
+    print("Caso (1): se requirieron {} iteraciones ".format(k1_j) +
+          "utilizando Jacobi")
+    print("x =", x1_j)
+    print("Caso (1): se requirieron {} iteraciones ".format(k1_gs) +
+          "utilizando Gauss-Seidel")
+    print("x =", x1_gs)
     A2 = np.array([[5, 7, 6, 5], [7, 10, 8, 7], [6, 8, 10, 9], [5, 7, 9, 10]])
     b2 = np.array([23, 32, 33, 31])
     err2 = 1e-4
     x2_j, k2_j = jacobi(A2, b2, err2, mit)
     x2_gs, k2_gs = gseidel(A2, b2, err2, mit)
-    print("Caso (2): se requirieron {} iteraciones utilizando Jacobi")
-    print("Caso (2): se requirieron {} iteraciones utilizando Gauss-Seidel")
+    print("Caso (2): se requirieron {} iteraciones ".format(k2_j) +
+          "utilizando Jacobi")
+    print("x =", x2_j)
+    print("Caso (2): se requirieron {} iteraciones ".format(k2_gs) +
+          "utilizando Gauss-Seidel")
+    print("x =", x2_gs)
 
 
 if __name__ == "__main__":
-    ej4()
+    """
+    Comentando y descomentando las siguientes
+    lineas puede ejecutar una funcion distinta.
+    """
+    # ej4()
+    ej6()

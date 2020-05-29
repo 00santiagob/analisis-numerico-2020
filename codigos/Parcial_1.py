@@ -1,5 +1,5 @@
 # Analisis Numerico (2020)
-# Parcial N°1
+# Parcial de Laboratorio N°1
 # Autor: @00santiagob (GitHub)
 
 import numpy as np
@@ -154,10 +154,11 @@ def ej3_b():
 
 
 if __name__ == "__main__":
-    """ Ejercicio 1 """
-    # fibonacci()
-    """ Ejercicio 2 """
+    """
+    Comentando y descomentando las siguientes
+    lineas puede ejecutar una funcion distinta.
+    """
+    fibonacci()
     # ej2_a()
     # ej2_c()
-    """ Ejercicio 3 """
-    ej3_b()
+    # ej3_b()

@@ -43,32 +43,26 @@ def rbisec(fun, I, err, mit):
     return hx, hf
 
 
-def fun_lab2ej2a(x):
-    return 2*x - tan(x)  # 2*x = tan(x)
-
-
 def ej2_a():
+    def fun_lab2ej2a(x): return 2*x - tan(x)  # 2*x = tan(x)
     i = [0.8, 1.4]
     err = 1e-5  # 10**(-5)
     mit = 100
     hx, hf = rbisec(fun_lab2ej2a, i, err, mit)
-    print("Historial de puntos medios (hx):\n", hx,
-          "\nHistorial de los respectivos puntos medios (hf):\n", hf)
+    print("Historial de puntos medios (hx):\n", hx)
+    print("Historial de los respectivos puntos medios (hf):\n", hf)
     print("Fueron necesarias", len(hx), "iteraciones")
     return hx, hf
 
 
-def fun_lab2ej2b(x):
-    return x**2 - 3  # sqrt(3)
-
-
 def ej2_b():
+    def fun_lab2ej2b(x): return x**2 - 3  # sqrt(3)
     i = [1, 3]
     err = 1e-5  # 10**(-5)
     mit = 100
     hx, hf = rbisec(fun_lab2ej2b, i, err, mit)
-    print("Historial de puntos medios:\n", hx,
-          "\nHistorial de los respectivos puntos medios:\n", hf)
+    print("Historial de puntos medios:\n", hx)
+    print("Historial de los respectivos puntos medios:\n", hf)
     print("sqrt(3) =", sqrt(3))
     return hx, hf
 
@@ -111,12 +105,12 @@ def rnewton(fun, x0, err, mit):
 
 
 def ej4():
-    x0 = 1
-    err = 1e-6  # 10**(-6)
-    mit = 100
     a = int(input("Ingrese el valor de 'a' (mayor a 0): "))
 
     def sqrt3_a(x): return (x**3 - a, 3*(x**2))
+    x0 = 1
+    err = 1e-6  # 10**(-6)
+    mit = 100
     hx, hf = rnewton(sqrt3_a, x0, err, mit)
     print("hx =", hx, "\nhf =", hf)
     return hx, hf
@@ -143,11 +137,8 @@ def ripf(fun, x0, err, mit):
     return hx
 
 
-def fun_lab2ej6(x):
-    return 2**(x - 1)
-
-
 def ej6():
+    def fun_lab2ej6(x): return 2**(x - 1)
     x0 = range(-5, 3, 1)  # Para x0 > 2 la funcion es exponencial, no converge
     err = 1e-5  # 10**(-5)
     mit = 100
@@ -201,5 +192,13 @@ def ej7():
 
 
 if __name__ == '__main__':
-    # ejx_y() ejecutara la funcion del ejercicio n° x inciso y
-    ej7()
+    """
+    Comentando y descomentando las siguientes
+    lineas puede ejecutar una funcion distinta.
+    """
+    ej2_a()
+    # ej2_b()
+    # ej2_c()
+    # ej4()
+    # ej6()
+    # ej7()

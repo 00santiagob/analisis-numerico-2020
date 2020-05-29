@@ -2,7 +2,6 @@
 # Trabajo de Laboratorio N°4
 # Autor: @00santiagob (GitHub)
 
-
 import numpy as np
 import matplotlib.pyplot as plt
 from math import asin, cos, pi
@@ -187,4 +186,14 @@ def ej4():
 
 
 if __name__ == "__main__":
-    ej4()
+    """
+    Comentando y descomentando las siguientes
+    lineas puede ejecutar una funcion distinta.
+    """
+    ej1_a()
+    # ej1_b()
+    # ej2_a()
+    # ej2_b()
+    # ej3_a()
+    # ej3_b()
+    # ej4()

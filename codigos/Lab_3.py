@@ -2,7 +2,6 @@
 # Trabajo de Laboratorio N°3
 # Autor: @00santiagob (GitHub)
 
-
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.interpolate import CubicSpline
@@ -164,4 +163,10 @@ def ej5():
 
 
 if __name__ == "__main__":
-    ej5()
+    """
+    Comentando y descomentando las siguientes
+    lineas puede ejecutar una funcion distinta.
+    """
+    ej3()
+    # ej4()
+    # ej5()

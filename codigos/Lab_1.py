@@ -3,7 +3,7 @@
 # Autor: @00santiagob (GitHub)
 
 import numpy as np
-import math
+from math import isinf, nan, factorial
 
 
 def ej1():
@@ -49,7 +49,7 @@ def ej3():
     i = 0
     try:
         # while not np.isinf(2**i):
-        while not math.isinf(2**i):
+        while not isinf(2**i):
             i = i + 1
     except OverflowError:
         print("Overflow con 2**("+str(i)+")=", 2**i+1)
@@ -85,7 +85,7 @@ def ej5():
     """
     # Usando math.factorial()
     n = int(input("Ingrese un valor n: "))
-    fact = math.factorial(n)
+    fact = factorial(n)
     print("Factorial de n =", fact)
 
 
@@ -116,8 +116,8 @@ def mala(a, b, c):
         x1 = (-b + delta**(.5)) / (2*a)
         x2 = (-b - delta**(.5)) / (2*a)
     else:
-        x1 = math.nan
-        x2 = math.nan
+        x1 = nan
+        x2 = nan
     return x1, x2
 
 
@@ -160,5 +160,16 @@ def ej9():
 
 
 if __name__ == "__main__":
-    # ejx() ejecutara la funcion del ejercicio n° x
-    ej9()
+    """
+    Comentando y descomentando las siguientes
+    lineas puede ejecutar una funcion distinta.
+    """
+    ej1()
+    # ej2()
+    # ej3()
+    # ej4()
+    # ej5()
+    # ej6()
+    # ej7()
+    # ej8()
+    # ej9()

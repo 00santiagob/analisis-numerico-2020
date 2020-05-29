@@ -18,7 +18,7 @@ Ejercicios del Laboratorio de Analisis Numerico (2020) del FaMAF - UNC (FaMAFyC)
 * **Lab_5.py** (*completo* - Temario 5).
 * **Lab_6.py** (*completo* - Temario 6).
 * **Parcial_1.py** (*completo* - Temarios 1, 2 y 3).
-* **Parcial_2.py** (*completo* - Temarios 4, 5 y 6).
+* **Parcial_2.py** (*Aun no se hizo* - Temarios 4, 5 y 6).
 
 Para este repositorio se uso *autopep8* para el estilo de codigo, lo cual hizo que no se pueda usar funciones lambda.
 Ademas se han usado librerias como ***Numpy***, ***Scipy***, ***Matplotlib*** y ***Math*** para la realizacion de algunos ejercicios.
