@@ -206,5 +206,5 @@ if __name__ == "__main__":
     Comentando y descomentando las siguientes
     lineas puede ejecutar una funcion distinta.
     """
-    # ej4()
-    ej6()
+    ej4()
+    # ej6()

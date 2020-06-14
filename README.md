@@ -17,6 +17,7 @@ Ejercicios del Laboratorio de Analisis Numerico (2020) del FaMAF - UNC (FaMAFyC)
 * **Lab_4.py** (*completo* - Temario 4).
 * **Lab_5.py** (*completo* - Temario 5).
 * **Lab_6.py** (*completo* - Temario 6).
+* **Lab_7.py** (*Aun no se hizo* - Temario 7)
 * **Parcial_1.py** (*completo* - Temarios 1, 2 y 3).
 * **Parcial_2.py** (*Aun no se hizo* - Temarios 4, 5 y 6).
 
