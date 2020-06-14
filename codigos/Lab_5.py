@@ -210,10 +210,10 @@ def pendulo(l, alfa):
 
 def ej6():
     # Cuando alfa=0 el periodo=4*sqrt(l/g)*(pi/2)
-    l = float(input("Introduce la longitud del pendulo en metros: "))
+    longitud = float(input("Introduce la longitud del pendulo en metros: "))
     for alfa in range(91):  # 0 <= alfa <= 90
-        periodo = pendulo(l, alfa)
-        print("El pendulo de longitud {} ".format(l) +
+        periodo = pendulo(longitud, alfa)
+        print("El pendulo de longitud {} ".format(longitud) +
               "con amplitud {} ".format(alfa) +
               "tiene un periodo de {}".format(periodo))
 

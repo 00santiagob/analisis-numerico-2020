@@ -10,7 +10,7 @@ from math import asin, cos, pi
 def ej1_a():
     # Aproximacion discreta por cuadrados minimos
     # Cargamos los datos
-    datos = np.loadtxt('./datos/datos1a.dat')
+    datos = np.loadtxt('codigos/datos/datos1a.dat')
     m = datos.shape[1]  # Cantidad de datos
     xd = datos[0]
     yd = datos[1]
@@ -75,7 +75,7 @@ def ej2_a():
         y.append(f(i))
     residuos = []
     for n in range(6):
-        coef, residuo, _, _, _ = np.polyfit(x, y, n, full=True)
+        _, residuo, _, _, _ = np.polyfit(x, y, n, full=True)
         residuos.append(residuo)
     print("Residuos", *residuos, sep='\n')
     sumR = 0
@@ -92,7 +92,7 @@ def ej2_b():
         y.append(f(i))
     residuos = []
     for n in range(6):
-        coef, residuo, _, _, _ = np.polyfit(x, y, n, full=True)
+        _, residuo, _, _, _ = np.polyfit(x, y, n, full=True)
         residuos.append(residuo)
     print("Residuos", *residuos, sep='\n')
     sumR = 0
@@ -102,7 +102,7 @@ def ej2_b():
 
 
 def ej3_a():
-    data = np.loadtxt('datos/datos3a.dat')
+    data = np.loadtxt('codigos/datos/datos3a.dat')
     # y = C * x**A --> ln(y) = ln(C) + A*ln(x)
     # y_hat = c_hat + A**x_hat, donde y_hat=ln(y), c_hat=ln(C), x_hat=ln(x)
     x = data[0]
@@ -129,7 +129,7 @@ def ej3_a():
 
 
 def ej3_b():
-    data = np.loadtxt('datos/datos3b.dat')
+    data = np.loadtxt('codigos/datos/datos3b.dat')
     # y = x / (A*x + B) --> (1/y) = A + (1/x)*B
     # y_hat = A + x_hat*B, donde y_hat = 1/y, x_hat = 1/x
     x = data[0, 1:]
@@ -143,7 +143,7 @@ def ej3_b():
     print("A =", A)
     y_new = np.divide(x, (A*x + B))
     plt.style.use('dark_background')
-    fig, ax = plt.subplots(2, 1)
+    _, ax = plt.subplots(2, 1)
     ax[0].plot(x, y, '.r', label='datos')
     ax[0].plot(x, y_new, 'y', label='f(x)')
     ax[1].plot(x_hat, y_hat, '.r', label='datos')
@@ -156,7 +156,7 @@ def ej3_b():
 def ej4():
     # y = a*(e**(b*x)) --> ln(y) = ln(a) + b*x
     # y_hat = a_hat + b*x, donde y_hat = ln(y), a_hat = ln(a)
-    datos = np.genfromtxt('datos/covid_italia.csv', delimiter=',')
+    datos = np.genfromtxt('codigos/datos/covid_italia.csv', delimiter=',')
     filas = datos.shape[0]
     x, y = [], []
     for fila in range(filas):
@@ -175,7 +175,7 @@ def ej4():
     xb = [i * b for i in x]
     # Graficos
     plt.style.use('dark_background')
-    fig, ax = plt.subplots(2, 1)
+    _, ax = plt.subplots(2, 1)
     ax[0].plot(x, y_new, 'g', label='Funcion')
     ax[0].plot(x, y, '.r', label='Datos')
     ax[0].legend()

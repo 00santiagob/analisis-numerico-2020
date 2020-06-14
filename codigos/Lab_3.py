@@ -92,16 +92,15 @@ def ej3():
     lagrange = ilagrange(x, y, z)
     newton = inewton(x, y, z)
     plt.style.use('dark_background')
-    fig, ax = plt.subplots()
-    ax.plot(x, y, ".r", label="f(x)=y")
-    ax.plot(z, w, "-g", label="f(z)")
-    ax.plot(z, lagrange, "b", label="Lagrange")
-    ax.plot(z, newton, "y", label="Newton")
-    ax.set_xlabel("Eje X")
-    ax.set_ylabel("Eje Y")
-    ax.set_title("f(x), f(z), Lagrange y Newton")
-    ax.legend()
-    ax.grid()
+    plt.plot(x, y, ".r", label="f(x)=y")
+    plt.plot(z, w, "-g", label="f(z)")
+    plt.plot(z, lagrange, "b", label="Lagrange")
+    plt.plot(z, newton, "y", label="Newton")
+    plt.xlabel("Eje X")
+    plt.ylabel("Eje Y")
+    plt.title("f(x), f(z), Lagrange y Newton")
+    plt.legend()
+    plt.grid()
     plt.show()
 
 
@@ -110,7 +109,7 @@ def ej4():
     z = []
     z = np.linspace(-1, 1, 200)
     plt.style.use('dark_background')
-    fig, ax = plt.subplots(3, 5)
+    _, ax = plt.subplots(3, 5)
     n = 0
     for m in range(3):
         for k in range(5):
@@ -131,7 +130,7 @@ def ej5():
     # Matriz de datos
     # La primera columna son los años
     # Las otras columnas son las temperaturas, solo queremos la primera columna
-    datos = np.loadtxt('./datos/datos_aeroCBA.dat')
+    datos = np.loadtxt('codigos/datos/datos_aeroCBA.dat')
     # El metodo .shape[i] de una matriz nos dice la forma de la matriz
     # La cantidad de filas de una matriz
     filas = datos.shape[0]
