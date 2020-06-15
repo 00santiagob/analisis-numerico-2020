@@ -9,53 +9,62 @@ from scipy.optimize import linprog
 
 # EJERCICIO 1
 
-# cantidad_P >= 3
-# cantidad_N >= 1.5
-# cantidad_K >= 4
+# 1 kg de fertilizante alcanza para 10 m^2
+# Por cada kg:
+#   cantidad de fosforo   (P) >= 3
+#   cantidad de nitrogeno (N) >= 1.5
+#   cantidad de potasio   (K) >= 4
 
-# ___|_P_|_N_|_K_|_$
-# T1 | 3 | 1 | 8 | 10
-# T2 | 2 | 3 | 2 | 8
+# _Tipo_|_P_|_N_|_K_|_$
+#   T1  | 3 | 1 | 8 | 10
+#   T2  | 2 | 3 | 2 | 8
+
 # x : Kg de fertilizante T1 en 1 Kg de fertilizante Nuevo
 # y : Kg de fertilizante T2 en 1 Kg de fertilizante Nuevo
 
 # x + y = 1
 
 # minimizar el costo total cubriendo requerimientos del suelo
-# Costo total de 1 Kg de fertilizante Nuevo: x*10 + y*8
+# Costo total de 1 Kg de fertilizante Nuevo: 10*x + 8*y
 
 # Requerimientos:
-# x*3 + y*2 >= 3
-# x + 3*y >= 1.5
-# x*8 + y*2 >= 4
+# 3*x + 2*y >= 3
+# 1*x + 3*y >= 1.5
+# 8*x + 2*y >= 4
 
-# minimizar 10*x+8*y
+# minimizar 10*x + 8*y
 # sujeto a:
 #    x*3 + y*2 >= 3
 #    x + 3*y >= 1.5
 #    x*8 + y*2 >= 4
 
-# y >= (3 - 3*x)*(1/2)
-# y >= (1.5 - x)*(1/3)
-# y >= (4 - 8*x)*(1/2)
+# Transformar los requerimientos en funciones
+# y1 = (3 - 3*x) * (1/2)
+# y2 = (1.5 - x) * (1/3)
+# y3 = (4 - 8*x) * (1/2)
 
 def ej1():
     x = np.arange(0, 1.01, 0.01)
-    y1 = (3 - 3*x)*(1/2)
-    y2 = (1.5 - x)*(1/3)
-    y3 = (4 - 8*x)*(1/2)
+    y1 = (3 - 3*x) * (1/2)
+    y2 = (1.5 - x) * (1/3)
+    y3 = (4 - 8*x) * (1/2)
     y4 = np.maximum(y1, np.maximum(y2, y3))
-    plt.plot(x, y1)
-    plt.plot(x, y2)
-    plt.plot(x, y3)
+    plt.style.use('dark_background')
+    plt.plot(x, y1, label='y1 = (3 - 3*x) * (1/2)')
+    plt.plot(x, y2, label='y2 = (1.5 - x) * (1/3)')
+    plt.plot(x, y3, label='y3 = (4 - 8*x) * (1/2)')
+    # plt.fill_between(x, y1, 2.5, alpha=0.5, hatch='/')
+    # plt.fill_between(x, y2, 2.5, alpha=0.5, hatch='|')
+    # plt.fill_between(x, y3, 2.5, alpha=0.5, hatch='-')
     plt.fill_between(x, y4, 2.5, alpha=0.5)
-    # plt.fill_between(x,y1,2.5,alpha=0.,hatch='/')
-    # plt.fill_between(x,y2,2.5,alpha=0.,hatch='|')
-    # plt.fill_between(x,y3,2.5,alpha=0.,hatch='-')
     plt.ylim(0, 2.5)
     plt.xlim(0, 1)
+    plt.xlabel('Eje X')
+    plt.ylabel('Eje Y')
+    plt.legend()
     plt.grid()
     plt.show()
+
 
 """
 # EJERCICIO 3
@@ -162,4 +171,8 @@ for i in range(4):
 """
 
 if __name__ == "__main__":
-    pass
+    """
+    Comentando y descomentando las siguientes
+    lineas puede ejecutar una funcion distinta.
+    """
+    ej1()
