@@ -7,60 +7,82 @@ from matplotlib import pyplot as plt
 from scipy.interpolate import CubicSpline
 from scipy.optimize import linprog
 
+
 # EJERCICIO 1
 
 
 def spline_velocidad(ts, vs):
     n = len(ts)
-    h = (np.round(ts[-1]) - ts[0]) / (2*n - 1)  # distancia equitativa
-    puntos = []
-    k = -1
+    new_ts = []
+    k = -1  # Index de ts
     for i in range(2*n - 1):
-        print(i, k)
         if i % 2 == 0:
             k += 1
-            puntos.append(ts[k])
+            new_ts.append(ts[k])  # Son los viejos puntos de ts
         else:
-            puntos.append((ts[k] + ts[k+1])/2)
-    print('puntos =', puntos)
-    # intervalos = np.arange(0, 2, 0.01)
+            new_ts.append((ts[k] + ts[k+1])/2)  # Son los puntos medios de ts
     # CubicSpline genera el polinomio interpolante por spline cubico
     # Necesitaremos extrapolar, podemos usar extrapolate (si no se rompe)
     polinomio = CubicSpline(ts, vs, extrapolate=True)
-    # Evaluamos el polinomio en los puntos generados.
-    final = polinomio(puntos)
-    print('final =', final)
-    plt.style.use('dark_background')
-    plt.plot(puntos, final, label='SplineCubico')
-    plt.plot(ts, vms, '.', label='Datos')
-    plt.title('Velocidad de una particula')
-    plt.xlabel('Tiempo en seg.')
-    plt.ylabel('Velocidad en m/seg')
-    plt.legend()
-    plt.show()
-    return puntos, final
+    # Evaluamos el polinomio en la nueva particion generada.
+    new_vs = polinomio(new_ts)
+    return new_ts, new_vs
 
 
-def trapecio_adaptativo(fun, a, b, N):
-    # fun es la funcion R->R a ser integrada
-    # a,b pertenecen a R, son los extremos de integracion
+def trapecio_adaptativo(v, p):
+    # v: valores de la funcion R->R a ser integrada
+    # p: particion del intervalo
     # N es la cantidad de subintervalos a usar
-    # S va a ser la salida
-    S = 0
-    h = (b - a)/N
-    x = [a]
-    for i in range(1, N):
-        x.append(a + i*h)
-    x.append(b)
-    suma = (fun(x[0]) + fun(x[N]))/2
-    for i in range(1, N):
-        suma = suma + fun(x[i])
-    S = suma * h
-    return S
+    N = len(p)
+    S_list = []  # Almacena los distintos trapecios calculados
+    for i in range(N - 1):
+        h = (p[i+1] - p[i])
+        S_list.append((v[i] + v[i+1]) * h / 2)
+    return S_list
 
 
 def posicion_particula():
-    pass
+    # Datos originales
+    ts = np.array([0, 0.22, 0.85, 1, 1.5, 1.6, 1.99])
+    vs = np.array([0, 0.1, -0.15, -0.03, 0.75, -0.3, 0.01])
+    # Se calculan los nuevos datos
+    new_ts, new_vs = spline_velocidad(ts, vs)
+    # Se hace la aproximacion de la integral por trapecio
+    Itrap_list = trapecio_adaptativo(new_vs, new_ts)
+    # Calculamos la posicion de la particula
+    pos = [0]
+    for i in range(len(Itrap_list)):
+        pos.append(pos[i] + Itrap_list[i])
+    # Aproximacion discreta por cuadrados minimos
+    m = len(new_ts)
+    prod = []
+    pow2 = []
+    for x in range(m):
+        prod.append(new_ts[x] * pos[x])
+        pow2.append(new_ts[x] ** 2)
+    # Coeficientes del Polinomio Lineal
+    a = m * sum(prod) - sum(new_ts)*sum(pos)
+    a = a / (m*sum(pow2) - sum(new_ts)**2)
+    b = sum(pow2)*sum(pos) - sum(new_ts)*sum(prod)
+    b = b / (m*sum(pow2) - sum(new_ts)**2)
+    # Polinomio Lineal (grado 1)
+
+    def polinomio_lineal(x): return a*x + b
+    # Nuevos valores a evaluar en el polinomio
+    xi = np.linspace(0, 2, 200)
+    yi = []
+    for i in xi:
+        yi.append(polinomio_lineal(i))
+    # Grafico
+    plt.style.use('dark_background')
+    plt.plot(new_ts, pos, '.', label='Tiempo-Posicion')
+    plt.plot(xi, yi, 'r', label="Polinomio Lineal")
+    plt.title('Posicion de la particula')
+    plt.xlabel('Tiempo en seg.')
+    plt.ylabel('Posicion de la particula')
+    plt.legend()
+    plt.grid()
+    plt.show()
 
 
 # EJERCICIO 2
@@ -84,7 +106,7 @@ def soltrinf(A, b, x):
 
 
 def gseidel(A, b, err, mit):
-    # Metodo iterativo de Gauss-Seidel
+    # Metodo iterativo de Gauss-Seidel adaptado con solucion triangular inf
     # A es una matriz R^nxn
     # b es un vector R^n
     # err es la tolerancia de error
@@ -95,18 +117,19 @@ def gseidel(A, b, err, mit):
     for i in range(n):
         for j in range(i+1):
             LD[i][j] = A[i][j]
-    b_aux = np.zeros(n)
-    # x es la solucion aproximada
+    b_aux = np.zeros(n)  # Nos ayuda a no modificar la b original
+    # x y u seran las soluciones aproximadas
     x = np.zeros(n)
     u = np.zeros(n)
     # k es la cantidad de iteraciones realizadas
     for k in range(mit):
         # Sumamos la triangular superior y se la restamos a b
         for i in range(n):
-            s = 0
+            soltrsup = 0
             for j in range(i+1, n):
-                s = s + (A[i][j] * x[j])
-            b_aux[i] = b[i] - s
+                soltrsup = soltrsup + (A[i][j] * x[j])
+            b_aux[i] = b[i] - soltrsup
+        # Calculamos solucion triangular inferior
         u = soltrinf(LD, b_aux, u)
         if abs(np.max(np.add(u, (-1)*x))) < err:
             return u, k
@@ -127,23 +150,25 @@ def sor(A, b, omega, err, mit):
     # Extraigo la matriz triangular inferior
     for i in range(n):
         for j in range(i+1):
+            # Necesitamos que solo L este multiplicada por omega
             if j < i:
                 LD[i][j] = A[i][j] * omega
             else:
                 LD[i][j] = A[i][j]
-    b_aux = np.zeros(n)
-    # x es la solucion aproximada
+    b_aux = np.zeros(n)  # Nos ayuda a no modificar la b original
+    # x y u seran las soluciones aproximadas
     x = np.zeros(n)
     u = np.zeros(n)
     # k es la cantidad de iteraciones realizadas
     for k in range(mit):
         # Sumamos la triangular superior y se la restamos a b
         for i in range(n):
-            s = 0
+            soltrsup = 0
             for j in range(i+1, n):
-                s = s + (omega * A[i][j])
-            s = (s + ((omega - 1) * LD[i][i])) * x[j]
-            b_aux[i] = (omega * b[i]) - s
+                soltrsup = soltrsup + (omega * A[i][j])
+            soltrsup = (soltrsup + ((omega - 1) * LD[i][i])) * x[j]
+            b_aux[i] = (omega * b[i]) - soltrsup
+        # Calculamos solucion triangular inferior
         u = soltrinf(LD, b_aux, u)
         if abs(np.max(np.add(u, (-1)*x))) < err:
             return u, k
@@ -153,6 +178,7 @@ def sor(A, b, omega, err, mit):
 
 
 def ejemplo2():
+    # A modo de prueba para los algoritmos anteriores
     mit = 100
     A1 = np.array([[3, 1, 1], [2, 6, 1], [1, 1, 4]])
     b1 = np.array([5, 9, 6])
@@ -198,6 +224,7 @@ def ejemplo2():
     print("Caso (1): se requirieron {} iteraciones ".format(k2_s) +
           "utilizando Successive over-relaxation con omega={}".format(omega))
     print("x =", x2_s)
+    # Se observo que es conveniente que omega este en el intervalo [1;3)
 
 
 # EJERCICIO 3
@@ -315,12 +342,24 @@ def ej3c():
 if __name__ == "__main__":
     """
     Comentando y descomentando las siguientes
-    lineas puede ejecutar una funcion distinta.
+    lineas puede ejecutar una funcion distinta
+    dependiendo de el ejercicio que elija.
     """
-    # EJERCICIO 1
+    ###############
+    # EJERCICIO 1 #
+    ###############
+
     posicion_particula()
-    # EJERCICIO 2
+
+    ###############
+    # EJERCICIO 2 #
+    ###############
+
     # ejemplo2()
-    # EJERCICIO 3
+
+    ###############
+    # EJERCICIO 3 #
+    ###############
+
     # ej3b(ej3a())
     # ej3c()
