@@ -17,9 +17,9 @@ Ejercicios del Laboratorio de Analisis Numerico (2020) del FaMAF - UNC (FaMAFyC)
 * **Lab_4.py** (*completo* - Temario 4).
 * **Lab_5.py** (*completo* - Temario 5).
 * **Lab_6.py** (*completo* - Temario 6).
-* **Lab_7.py** (*Aun no se hizo* - Temario 7)
+* **Lab_7.py** (*Falta el ultimo ejercicio* - Temario 7)
 * **Parcial_1.py** (*completo* - Temarios 1, 2 y 3).
-* **Parcial_2.py** (*Aun no se hizo* - Temarios 4, 5 y 6).
+* **Parcial_2.py** (*Completo* - Temarios 4, 5 y 6).
 
 Para este repositorio se uso *autopep8* para el estilo de codigo, lo cual hizo que no se pueda usar funciones lambda.
 Ademas se han usado librerias como ***Numpy***, ***Scipy***, ***Matplotlib*** y ***Math*** para la realizacion de algunos ejercicios.
@@ -47,9 +47,9 @@ Primero descargar el repositorio __analisis-numerico-2020__:
 
         git clone https://github.com/00santiagob/analisis-numerico-2020.git
 
-2) Para correr algun ejercicio entrar en algun archivo **Lab_x.py**, donde _x_ es el numero correspondiente a cada practico.
+2) Para correr algun ejercicio entrar en algun archivo **Lab_x.py** o **Parcial_x.py**, donde _x_ es el numero correspondiente a cada practico o parcial.
 
-3) En la parte inferior cambiar la llamada a la funcion **ejx()** por el que deseen, donde _x_ es el numero de ejercicio. En algunos casos especificos el nombre de la funcion es de la forma **ejx_y()** donde _x_ es la misma que antes y la _y_ corresponde a los incisos de algunos ejercicios.
+3) Para correr algun funcion en un archivo.py solo deben descomentar las llamadas a las funciones en el main y comentar la linea que ya estaba descomentada.
 
 ### Como Instalar
 
