@@ -34,11 +34,11 @@ def trapecio_adaptativo(v, p):
     # p: particion del intervalo
     # N es la cantidad de subintervalos a usar
     N = len(p)
-    S_list = []  # Almacena los distintos trapecios calculados
+    trap = 0  # Calcula el trapecio en un intervalo
     for i in range(N - 1):
         h = (p[i+1] - p[i])
-        S_list.append((v[i] + v[i+1]) * h / 2)
-    return S_list
+        trap = trap + ((v[i] + v[i+1]) * h / 2)
+    return trap
 
 
 def posicion_particula():
@@ -48,35 +48,12 @@ def posicion_particula():
     # Se calculan los nuevos datos
     new_ts, new_vs = spline_velocidad(ts, vs)
     # Se hace la aproximacion de la integral por trapecio
-    Itrap_list = trapecio_adaptativo(new_vs, new_ts)
-    # Calculamos la posicion de la particula
-    pos = [0]
-    for i in range(len(Itrap_list)):
-        pos.append(pos[i] + Itrap_list[i])
-    # Aproximacion discreta por cuadrados minimos
-    m = len(new_ts)
-    prod = []
-    pow2 = []
-    for x in range(m):
-        prod.append(new_ts[x] * pos[x])
-        pow2.append(new_ts[x] ** 2)
-    # Coeficientes del Polinomio Lineal
-    a = m * sum(prod) - sum(new_ts)*sum(pos)
-    a = a / (m*sum(pow2) - sum(new_ts)**2)
-    b = sum(pow2)*sum(pos) - sum(new_ts)*sum(prod)
-    b = b / (m*sum(pow2) - sum(new_ts)**2)
-    # Polinomio Lineal (grado 1)
-
-    def polinomio_lineal(x): return a*x + b
-    # Nuevos valores a evaluar en el polinomio
-    xi = np.linspace(0, 2, 200)
-    yi = []
-    for i in xi:
-        yi.append(polinomio_lineal(i))
+    Itrap = []
+    for pos in range(len(new_ts)):
+        Itrap.append(trapecio_adaptativo(new_vs[:pos+1], new_ts[:pos+1]))
     # Grafico
     plt.style.use('dark_background')
-    plt.plot(new_ts, pos, '.', label='Tiempo-Posicion')
-    plt.plot(xi, yi, 'r', label="Polinomio Lineal")
+    plt.plot(new_ts, Itrap, label='Tiempo-Posicion')
     plt.title('Posicion de la particula')
     plt.xlabel('Tiempo en seg.')
     plt.ylabel('Posicion de la particula')
@@ -131,7 +108,7 @@ def gseidel(A, b, err, mit):
             b_aux[i] = b[i] - soltrsup
         # Calculamos solucion triangular inferior
         u = soltrinf(LD, b_aux, u)
-        if abs(np.max(np.add(u, (-1)*x))) < err:
+        if np.max(abs(np.add(u, (-1)*x))) < err:
             return u, k
         for i in range(n):
             x[i] = u[i]
@@ -170,7 +147,7 @@ def sor(A, b, omega, err, mit):
             b_aux[i] = (omega * b[i]) - soltrsup
         # Calculamos solucion triangular inferior
         u = soltrinf(LD, b_aux, u)
-        if abs(np.max(np.add(u, (-1)*x))) < err:
+        if np.max(abs(np.add(u, (-1)*x))) < err:
             return u, k
         for i in range(n):
             x[i] = u[i]
@@ -349,13 +326,13 @@ if __name__ == "__main__":
     # EJERCICIO 1 #
     ###############
 
-    posicion_particula()
+    # posicion_particula()
 
     ###############
     # EJERCICIO 2 #
     ###############
 
-    # ejemplo2()
+    ejemplo2()
 
     ###############
     # EJERCICIO 3 #
