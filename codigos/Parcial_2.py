@@ -188,17 +188,17 @@ def ejemplo2():
     print("x =", x2_gs)
     omega = 1.01
     x2_s, k2_s = sor(A1, b1, omega, err2, mit)
-    print("Caso (1): se requirieron {} iteraciones ".format(k2_s) +
+    print("Caso (2): se requirieron {} iteraciones ".format(k2_s) +
           "utilizando Successive over-relaxation con omega={}".format(omega))
     print("x =", x2_s)
     omega = 2
     x2_s, k2_s = sor(A1, b1, omega, err2, mit)
-    print("Caso (1): se requirieron {} iteraciones ".format(k2_s) +
+    print("Caso (2): se requirieron {} iteraciones ".format(k2_s) +
           "utilizando Successive over-relaxation con omega={}".format(omega))
     print("x =", x2_s)
     omega = 2.7
     x2_s, k2_s = sor(A1, b1, omega, err2, mit)
-    print("Caso (1): se requirieron {} iteraciones ".format(k2_s) +
+    print("Caso (2): se requirieron {} iteraciones ".format(k2_s) +
           "utilizando Successive over-relaxation con omega={}".format(omega))
     print("x =", x2_s)
     # Se observo que es conveniente que omega este en el intervalo [1;3)
@@ -275,45 +275,42 @@ def ej3b(sol=None):
     plt.show()
 
 # Al contratar al carpintero se genera un gasto de dinero $200xHORA
-# Asumiendo que el ayudante no trabaja por si solo, siempre ayuda al carpintero
-# y su tiempo de produccion es igual al del carpintero, entonces cada vez que
-# ayuda al carpintero este reduce el tiempo de produccion a la mitad.
 
 # x1: Cantidad de mesas producidas en una semana solo por el carpintero
 # x2: Cantidad de sillas producidas en una semana solo por el carpintero
-# x3: Cantidad de mesas producidas en una semana con el ayudante
-# x4: Cantidad de sillas producidas en una semana con el ayudante
+# x3: Cantidad de horas de trabajo del ayudante
 
-# __________________________|__x1_|__x2_|__x3_|__x4_|_disponibilidad
-# tiempo de produccion (hs) |  2  |  1  |  1  | 0.5 |     40
-# planchas de madera        |  1  |  2  |  1  |  2  |     50
-# --------------------------|-----|-----|-----|-----|
-# $$$                       | 500 | 300 | 300 | 200 |
+# __________________________|__x1_|__x2_|_disponibilidad
+# tiempo de produccion (hs) |  2  |  1  |     40
+# planchas de madera        |  1  |  2  |     50
+# --------------------------|-----|-----|
+# $$$                       | 500 | 300 |
 
-# maximizar 500*x1 + 300*x2 + 300*x3 + 100*x4
+# maximizar 500*x1 + 300*x2 - 200*x3
 # sujeto a:
-#           2*x1 + x2 + x3 + (0.5)*x4 <= 40
-#           x1 + 2*x2 + x3 + 2*x4 <= 50
-#           x1, x2, x3, x4 >= 0
+#           2*x1 + x2 - x3 <= 40
+#           x1 + 2*x2 <= 50
+#           x3 <= 40
+#           x1, x2, x3 >= 0
 
 
 def ej3c():
     # Como en el ejercicio 3-a) debemos transformar el vector c a -c
-    c = np.array([-500, -300, -300, -100])
-    A1 = np.array([2, 1, 1, 0.5])
-    A2 = np.array([1, 2, 1, 2])
+    c = np.array([-500, -300, 200])
+    A1 = np.array([2, 1, -1])
+    A2 = np.array([1, 2, 0])
     A = np.vstack([A1, A2])
     b = np.array([40, 50])
-    res = linprog(c, A_ub=A, b_ub=b)
+    x1_bound = (0, None)
+    x2_bound = (0, None)
+    x3_bound = (0, 40)
+    res = linprog(c, A_ub=A, b_ub=b, bounds=[x1_bound, x2_bound, x3_bound])
     x = np.round(res.x)
     print('Para maximizar el ingreso neto se debe fabricar:')
-    print('Mesas hechas por el carpintero =', x[0])
-    print('Sillas hechas por el carpintero =', x[1])
-    print('Mesas hechas con ayuda =', x[2])
-    print('Sillas hechas con ayuda =', x[3])
-    print('Ingreso Maximo =', 500*x[0] + 300*x[1] + 300*x[2] + 100*x[3])
-    hs = x[2] + (x[3] * 0.5)
-    print('Si, le conviene contratar al ayudante por {} horas'.format(hs))
+    print('Mesas hechas =', x[0])
+    print('Sillas hechas =', x[1])
+    print('Ingreso Maximo =', 500*x[0] + 300*x[1] - 200*x[2])
+    print('Si, le conviene contratar al ayudante por {} horas'.format(x[2]))
 
 
 if __name__ == "__main__":
@@ -326,13 +323,13 @@ if __name__ == "__main__":
     # EJERCICIO 1 #
     ###############
 
-    # posicion_particula()
+    posicion_particula()
 
     ###############
     # EJERCICIO 2 #
     ###############
 
-    ejemplo2()
+    # ejemplo2()
 
     ###############
     # EJERCICIO 3 #

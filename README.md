@@ -17,7 +17,7 @@ En este repositorio se haran los codigos que sean relevantes para la materia Ana
 * **Lab_4.py** (*completo* - Temario 4).
 * **Lab_5.py** (*completo* - Temario 5).
 * **Lab_6.py** (*completo* - Temario 6).
-* **Lab_7.py** (*falta el ultimo ejercicio* - Temario 7)
+* **Lab_7.py** (*completo* - Temario 7)
 * **Parcial_1.py** (*completo* - Temarios 1, 2 y 3).
 * **Parcial_2.py** (*completo* - Temarios 4, 5 y 6).
 

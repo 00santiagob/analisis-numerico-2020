@@ -264,16 +264,34 @@ def ej5():
 
 # EJERCICIO 6
 
+def ej6():
+    costos = np.loadtxt('./datos/costos.dat')
+    demanda = np.loadtxt('./datos/demanda.dat')
+    stock = np.loadtxt('./datos/stock.dat')
+    restricciones_stock = np.kron(np.eye(100), np.ones(100))
+    restricciones_demanda = (-1)*np.kron(np.ones(100), np.eye(100))
+    restricciones = np.concatenate([restricciones_stock,
+                                    restricciones_demanda], axis=0)
+    lado_der = np.concatenate([stock, (-1)*demanda])
+    problema = linprog(costos.flatten(), A_ub=restricciones, b_ub=lado_der,
+                       method='interior-point')
+    solucion = np.round(problema.x).reshape((100, 100))
+    for idx in range(100):
+        for jdx in range(100):
+            if solucion[idx][jdx] > 0:
+                print("Llevar {}".format(solucion[idx][jdx]),
+                      "desde deposito {}".format(idx + 1),
+                      "hasta cliente {}".format(jdx + 1))
 
 if __name__ == "__main__":
     """
     Comentando y descomentando las siguientes
     lineas puede ejecutar una funcion distinta.
     """
-    # ej1()
+    ej1()
     # ej2()
     # ej3_b(ej3_c())  # Aca le estamos pasando la solucion
     # ej3_c()
     # ej4()
     # ej5()
-    ej6()
+    # ej6()
